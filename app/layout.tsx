@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import "./global.css";
 import * as React from "react";
+import Script from "next/script";
 
 export const metadata: Metadata = {
     title: "Sudoku",
@@ -15,7 +16,16 @@ export default function RootLayout({children,}: Readonly<{
 }>) {
     return (
         <html lang="ko">
-        <body className="antialiased">{children}</body>
+        <body className="antialiased">
+            {/* PropellerAds - Load external scripts dynamically */}
+            <Script
+                src={"https://fpyf8.com/88/tag.min.js"}
+                data-zone="177383"
+                strategy="lazyOnload"
+                async
+            />
+            {children}
+        </body>
         </html>
     );
 }
