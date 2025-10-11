@@ -38,9 +38,7 @@ export default function Home() {
 
     // Click Cell
     const handleCellClick = (row: number, col: number) => {
-        if (initialGrid[row]?.[col] === 0) {
-            setSelectedCell([row, col]);
-        }
+        setSelectedCell([row, col]);
     };
 
     // Input Number
@@ -62,6 +60,37 @@ export default function Home() {
         }
     };
 
+    // Type Keyboard
+    useEffect(() => {
+        const handleKeyPress = (e: KeyboardEvent) => {
+            if (e.key >= '1' && e.key <= '9') {
+                handleNumberInput(parseInt(e.key));
+            } else if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') {
+                handleNumberInput(0);
+            } else if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
+                if (!selectedCell) {
+                    setSelectedCell([0, 0]);
+                    return;
+                }
+
+                const [row, col] = selectedCell;
+                let newRow = row;
+                let newCol = col;
+
+                if (e.key === 'ArrowUp') newRow = Math.max(0, row - 1);
+                if (e.key === 'ArrowDown') newRow = Math.min(8, row + 1);
+                if (e.key === 'ArrowLeft') newCol = Math.max(0, col - 1);
+                if (e.key === 'ArrowRight') newCol = Math.min(8, col + 1);
+
+                setSelectedCell([newRow, newCol]);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, [selectedCell, userGrid, initialGrid]);
+
     // Cell Style
     const getCellClassName = (row: number, col: number) => {
         const isInitial = initialGrid[row]?.[col] !== 0;
@@ -78,7 +107,12 @@ export default function Home() {
         if (col === 8) className += 'border-r-2 border-r-gray-700 ';
 
         if (isInitial) {
-            className += 'bg-gray-100 text-gray-800 font-bold ';
+            className += 'text-gray-800 font-bold ';
+            if (isSelected) {
+                className += 'bg-blue-200 ';
+            } else {
+                className += 'bg-gray-100 ';
+            }
         } else if (isWrong) {
             className += 'bg-red-100 text-red-600 ';
         } else if (isSelected) {
