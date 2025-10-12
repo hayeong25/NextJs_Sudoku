@@ -90,6 +90,9 @@ export default function Home() {
                 const isCorrect = checkPuzzle(newGrid, solution);
                 if (isCorrect) {
                     setIsComplete(true);
+                    setTimeout(() => {
+                        startNewGame(difficulty);
+                    }, 3000);
                 }
             }
         }
@@ -116,6 +119,9 @@ export default function Home() {
             const isCorrect = checkPuzzle(newGrid, solution);
             if (isCorrect) {
                 setIsComplete(true);
+                setTimeout(() => {
+                    startNewGame(difficulty);
+                }, 3000);
             }
         }
     };
@@ -313,18 +319,18 @@ export default function Home() {
                         </svg>
                     </button>
                 </div>
+            </div>
 
-                {/* Complete Message */}
-                <div className="flex items-center justify-between gap-4 min-h-[3rem]">
-                    <div className="flex-1 text-center">
-                        {isComplete && (
-                            <div className="text-lg font-bold text-green-600">
-                                Congratulation! 🎉
-                            </div>
-                        )}
+            {/* Completion Modal */}
+            {isComplete && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white rounded-2xl shadow-2xl p-12 text-center animate-bounce">
+                        <div className="text-4xl font-bold text-green-600 mb-2">
+                            Congratulations! 🎉
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }
