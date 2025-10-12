@@ -1,5 +1,5 @@
 export type SudokuGrid = number[][];
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'expert';
 
 // Valid Sudoku Grid
 export function isValid(grid: SudokuGrid, row: number, col: number, num: number): boolean {
@@ -70,13 +70,17 @@ export function generatePuzzle(difficulty: Difficulty): { puzzle: SudokuGrid; so
     const cellsToRemove = {
         easy: 35,
         medium: 45,
-        hard: 55
+        hard: 55,
+        expert: 60
     };
 
     const count = cellsToRemove[difficulty];
     let removed = 0;
+    let attempts = 0;
+    const maxAttempts = difficulty === 'expert' ? 150 : 500;
 
-    while (removed < count) {
+    while (removed < count && attempts < maxAttempts) {
+        attempts++;
         const row = Math.floor(Math.random() * 9);
         const col = Math.floor(Math.random() * 9);
 
@@ -84,13 +88,18 @@ export function generatePuzzle(difficulty: Difficulty): { puzzle: SudokuGrid; so
             const backup = puzzle[row][col];
             puzzle[row][col] = 0;
 
-            const testGrid = puzzle.map(r => [...r]);
-            const count = countSolutions(testGrid, 0);
-
-            if (count === 1) {
+            // Skip unique solution check for expert difficulty to speed up
+            if (difficulty === 'expert') {
                 removed++;
             } else {
-                puzzle[row][col] = backup;
+                const testGrid = puzzle.map(r => [...r]);
+                const solutionCount = countSolutions(testGrid, 0);
+
+                if (solutionCount === 1) {
+                    removed++;
+                } else {
+                    puzzle[row][col] = backup;
+                }
             }
         }
     }
