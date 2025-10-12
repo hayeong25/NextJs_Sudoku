@@ -21,7 +21,7 @@ export default function RootLayout({children,}: Readonly<{
             <Script
                 src={"https://fpyf8.com/88/tag.min.js"}
                 data-zone="177383"
-                strategy="lazyOnload"
+                strategy="afterInteractive"
                 async
             />
             {children}
