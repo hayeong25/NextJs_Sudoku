@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     title: "Sudoku",
     description: "Next.js-based web page where you can enjoy Sudoku games",
     other: {
-        'propeller': '9e39afa0361fca43d0b0455e6608584e' // PropellerAds
+        'google-adsense-account': 'ca-pub-8155259965118969', // Google AdSense
     }
 };
 
@@ -17,14 +17,14 @@ export default function RootLayout({children,}: Readonly<{
     return (
         <html lang="ko">
         <body className="antialiased">
-            {/* PropellerAds - Load external scripts dynamically */}
-            <Script
-                src={"https://fpyf8.com/88/tag.min.js"}
-                data-zone="177383"
-                strategy="afterInteractive"
-                async
-            />
-            {children}
+        {/* Google AdSense Script */}
+        <Script
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8155259965118969"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+            async
+        />
+        {children}
         </body>
         </html>
     );
