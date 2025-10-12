@@ -24,6 +24,12 @@ export default function RootLayout({children,}: Readonly<{
             strategy="afterInteractive"
             async
         />
+        {/* Kakao AdFit Script */}
+        <Script
+            src="https://t1.daumcdn.net/kas/static/ba.min.js"
+            strategy="afterInteractive"
+            async
+        />
         {children}
         </body>
         </html>

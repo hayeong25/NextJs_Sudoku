@@ -2,6 +2,7 @@
 
 import {useState, useEffect} from 'react';
 import {generatePuzzle, checkPuzzle, isPuzzleComplete, type SudokuGrid, type Difficulty} from '@/lib/sudoku';
+import KakaoAdFit from '@/component/KakaoAdFit';
 
 export default function Home() {
     const [difficulty, setDifficulty] = useState<Difficulty>('medium');
@@ -194,7 +195,26 @@ export default function Home() {
 
     return (
         <div
-            className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 overflow-hidden">
+            className="flex flex-col lg:flex-row items-center justify-center min-h-screen lg:h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 overflow-auto lg:overflow-hidden">
+
+            {/* Top Ad (Mobile only) */}
+            <div className="flex lg:hidden items-center justify-center flex-shrink-0 mb-4">
+                <KakaoAdFit
+                    unit="DAN-LZ4IURtj6f5Q04yH"
+                    width="250"
+                    height="250"
+                />
+            </div>
+
+            {/* Left Ad (Desktop only) */}
+            <div className="hidden lg:flex items-center justify-center flex-shrink-0 mr-4">
+                <KakaoAdFit
+                    unit="DAN-LZ4IURtj6f5Q04yH"
+                    width="250"
+                    height="250"
+                />
+            </div>
+
             <div className="bg-white rounded-lg shadow-2xl p-4 max-w-fit">
 
                 {/* Top - Menu */}
@@ -319,6 +339,24 @@ export default function Home() {
                         </svg>
                     </button>
                 </div>
+            </div>
+
+            {/* Right Ad (Desktop only) */}
+            <div className="hidden lg:flex items-center justify-center flex-shrink-0 ml-4">
+                <KakaoAdFit
+                    unit="DAN-LZ4IURtj6f5Q04yH"
+                    width="250"
+                    height="250"
+                />
+            </div>
+
+            {/* Bottom Ad (Mobile only) */}
+            <div className="flex lg:hidden items-center justify-center flex-shrink-0 mt-4">
+                <KakaoAdFit
+                    unit="DAN-LZ4IURtj6f5Q04yH"
+                    width="250"
+                    height="250"
+                />
             </div>
 
             {/* Completion Modal */}
