@@ -165,6 +165,10 @@ export default function Home() {
         const value = userGrid[row]?.[col];
         const isWrong = value !== 0 && value !== solution[row]?.[col];
 
+        // Check if this cell has the same number as selected cell
+        const selectedValue = selectedCell ? userGrid[selectedCell[0]]?.[selectedCell[1]] : null;
+        const isSameNumber = selectedValue !== null && selectedValue !== 0 && value === selectedValue && !isSelected;
+
         let className = 'w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 flex items-center justify-center text-base sm:text-lg lg:text-lg font-semibold cursor-pointer border border-gray-300 ';
 
         // 3x3 Thick Border
@@ -177,6 +181,8 @@ export default function Home() {
             className += 'text-gray-800 font-bold ';
             if (isSelected) {
                 className += 'bg-blue-200 ';
+            } else if (isSameNumber) {
+                className += 'bg-blue-100 ';
             } else {
                 className += 'bg-gray-100 ';
             }
@@ -184,6 +190,8 @@ export default function Home() {
             className += 'bg-red-100 text-red-600 ';
         } else if (isSelected) {
             className += 'bg-blue-200 ';
+        } else if (isSameNumber) {
+            className += 'bg-blue-100 text-blue-600 ';
         } else {
             className += 'bg-white hover:bg-blue-50 text-blue-600 ';
         }
