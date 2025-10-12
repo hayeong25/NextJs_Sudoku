@@ -13,7 +13,7 @@ export default function Home() {
     const [selectedCell, setSelectedCell] = useState<[number, number] | null>(null);
     const [isComplete, setIsComplete] = useState(false);
     const [memoMode, setMemoMode] = useState(false);
-    const [memos, setMemos] = useState<{[key: string]: number[]}>({});
+    const [memos, setMemos] = useState<{ [key: string]: number[] }>({});
 
     // Start New Game
     const startNewGame = (diff: Difficulty) => {
@@ -165,7 +165,7 @@ export default function Home() {
         const value = userGrid[row]?.[col];
         const isWrong = value !== 0 && value !== solution[row]?.[col];
 
-        let className = 'w-12 h-12 flex items-center justify-center text-lg font-semibold cursor-pointer border border-gray-300 ';
+        let className = 'w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 flex items-center justify-center text-base sm:text-lg lg:text-lg font-semibold cursor-pointer border border-gray-300 ';
 
         // 3x3 Thick Border
         if (row % 3 === 0) className += 'border-t-2 border-t-gray-700 ';
@@ -215,26 +215,26 @@ export default function Home() {
                 />
             </div>
 
-            <div className="bg-white rounded-lg shadow-2xl p-4 max-w-fit">
+            <div className="bg-white rounded-lg shadow-2xl p-2 sm:p-3 lg:p-4 max-w-fit">
 
                 {/* Top - Menu */}
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
                     {/* New Game */}
                     <button
                         onClick={() => startNewGame(difficulty)}
-                        className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-sm"
+                        className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
                         title="new game"
                     >
                         new
                     </button>
 
                     {/* Difficulty */}
-                    <div className="flex gap-2 justify-center flex-1">
+                    <div className="flex gap-1 sm:gap-2 justify-center flex-1">
                         {(['easy', 'medium', 'hard', 'expert'] as Difficulty[]).map((diff) => (
                             <button
                                 key={diff}
                                 onClick={() => startNewGame(diff)}
-                                className={`px-4 py-1.5 rounded-lg font-semibold transition-colors text-sm ${
+                                className={`px-2 sm:px-4 py-1 sm:py-1.5 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
                                     difficulty === diff
                                         ? 'bg-blue-600 text-white'
                                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -248,7 +248,7 @@ export default function Home() {
                     {/* Reset */}
                     <button
                         onClick={resetGame}
-                        className="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-sm"
+                        className="px-2 sm:px-3 py-0.5 sm:py-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
                         title="reset"
                     >
                         ↻
@@ -256,7 +256,7 @@ export default function Home() {
                 </div>
 
                 {/* Middle - Sudoku Grid */}
-                <div className="mb-3 inline-block border-2 border-gray-700">
+                <div className="mb-2 sm:mb-3 inline-block border-2 border-gray-700">
                     {userGrid.map((row, rowIndex) => (
                         <div key={rowIndex} className="flex">
                             {row.map((cell, colIndex) => (
@@ -268,9 +268,11 @@ export default function Home() {
                                     {cell !== 0 ? (
                                         cell
                                     ) : memos[`${rowIndex}-${colIndex}`]?.length > 0 ? (
-                                        <div className="grid grid-cols-3 grid-rows-3 w-full h-full text-[8px] text-gray-500 p-0.5">
+                                        <div
+                                            className="grid grid-cols-3 grid-rows-3 w-full h-full text-[7px] sm:text-[8px] lg:text-[8px] text-gray-500 p-0.5">
                                             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-                                                <div key={num} className="flex items-center justify-center leading-none">
+                                                <div key={num}
+                                                     className="flex items-center justify-center leading-none">
                                                     {memos[`${rowIndex}-${colIndex}`]?.includes(num) ? num : ''}
                                                 </div>
                                             ))}
@@ -285,28 +287,34 @@ export default function Home() {
                 </div>
 
                 {/* Bottom - Number Pad */}
-                <div className="grid grid-cols-6 gap-y-1 gap-x-0.5 mb-2 mx-auto" style={{maxWidth: '24rem'}}>
+                <div className="grid grid-cols-6 gap-y-0.5 sm:gap-y-1 gap-x-0.5 mb-2 mx-auto"
+                     style={{maxWidth: '24rem'}}>
                     {[1, 2, 3, 4, 5].map((num) => (
                         <button
                             key={num}
                             onClick={() => handleNumberInput(num)}
-                            className="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold rounded-lg transition-colors"
+                            className="w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 bg-blue-500 hover:bg-blue-600 text-white text-base sm:text-lg lg:text-lg font-bold rounded-lg transition-colors"
                         >
                             {num}
                         </button>
                     ))}
                     <button
                         onClick={() => setMemoMode(!memoMode)}
-                        className={`w-12 h-12 ${memoMode ? 'bg-purple-700' : 'bg-purple-500'} hover:bg-purple-600 text-white text-xs font-bold rounded-lg transition-colors`}
+                        className={`w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 ${memoMode ? 'bg-purple-700' : 'bg-purple-500'} hover:bg-purple-600 text-white text-xs font-bold rounded-lg transition-colors`}
                     >
                         {memoMode ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-auto">
-                                <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625z"/>
-                                <path d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                 className="w-5 h-5 sm:w-6 sm:h-6 lg:w-6 lg:h-6 mx-auto">
+                                <path
+                                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625z"/>
+                                <path
+                                    d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z"/>
                             </svg>
                         ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-auto">
-                                <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                 className="w-5 h-5 sm:w-6 sm:h-6 lg:w-6 lg:h-6 mx-auto">
+                                <path
+                                    d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/>
                             </svg>
                         )}
                     </button>
@@ -314,28 +322,34 @@ export default function Home() {
                         <button
                             key={num}
                             onClick={() => handleNumberInput(num)}
-                            className="w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold rounded-lg transition-colors"
+                            className="w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 bg-blue-500 hover:bg-blue-600 text-white text-base sm:text-lg lg:text-lg font-bold rounded-lg transition-colors"
                         >
                             {num}
                         </button>
                     ))}
                     <button
                         onClick={() => handleNumberInput(0)}
-                        className="w-12 h-12 bg-gray-500 hover:bg-gray-600 text-white text-xl font-bold rounded-lg transition-colors"
+                        className="w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 bg-gray-500 hover:bg-gray-600 text-white text-lg sm:text-xl font-bold rounded-lg transition-colors"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-auto scale-x-[-1]">
-                            <path d="M16.192 6.344L11.949 2.1a1.75 1.75 0 00-2.475 0L2.1 9.474a1.75 1.75 0 000 2.475l7.374 7.374a1.75 1.75 0 002.475 0l7.374-7.374a1.75 1.75 0 000-2.475l-3.131-3.13zM9.474 3.515l4.243 4.243-6.364 6.364-4.243-4.243 6.364-6.364z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             className="w-5 h-5 sm:w-6 sm:h-6 lg:w-6 lg:h-6 mx-auto scale-x-[-1]">
+                            <path
+                                d="M16.192 6.344L11.949 2.1a1.75 1.75 0 00-2.475 0L2.1 9.474a1.75 1.75 0 000 2.475l7.374 7.374a1.75 1.75 0 002.475 0l7.374-7.374a1.75 1.75 0 000-2.475l-3.131-3.13zM9.474 3.515l4.243 4.243-6.364 6.364-4.243-4.243 6.364-6.364z"/>
                             <path d="M19.5 21h-15a.75.75 0 000 1.5h15a.75.75 0 000-1.5z"/>
                         </svg>
                     </button>
                     <button
                         onClick={handleHint}
-                        className="w-12 h-12 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-bold rounded-lg transition-colors"
+                        className="w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-bold rounded-lg transition-colors"
                         title="hint"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-auto">
-                            <path d="M12 .75a8.25 8.25 0 00-4.135 15.39c.686.398 1.115 1.008 1.134 1.623a.75.75 0 00.577.706c.352.083.71.148 1.074.195.323.041.6-.218.6-.544v-4.661a6.714 6.714 0 01-.937-.171.75.75 0 11.374-1.453 5.261 5.261 0 002.626 0 .75.75 0 11.374 1.452 6.712 6.712 0 01-.937.172v4.66c0 .327.277.586.6.545.364-.047.722-.112 1.074-.195a.75.75 0 00.577-.706c.02-.615.448-1.225 1.134-1.623A8.25 8.25 0 0012 .75z"/>
-                            <path fillRule="evenodd" d="M9.013 19.9a.75.75 0 01.877-.597 11.319 11.319 0 004.22 0 .75.75 0 11.28 1.473 12.819 12.819 0 01-4.78 0 .75.75 0 01-.597-.876zM9.754 22.344a.75.75 0 01.824-.668 13.682 13.682 0 002.844 0 .75.75 0 11.156 1.492 15.156 15.156 0 01-3.156 0 .75.75 0 01-.668-.824z" clipRule="evenodd"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             className="w-5 h-5 sm:w-6 sm:h-6 lg:w-6 lg:h-6 mx-auto">
+                            <path
+                                d="M12 .75a8.25 8.25 0 00-4.135 15.39c.686.398 1.115 1.008 1.134 1.623a.75.75 0 00.577.706c.352.083.71.148 1.074.195.323.041.6-.218.6-.544v-4.661a6.714 6.714 0 01-.937-.171.75.75 0 11.374-1.453 5.261 5.261 0 002.626 0 .75.75 0 11.374 1.452 6.712 6.712 0 01-.937.172v4.66c0 .327.277.586.6.545.364-.047.722-.112 1.074-.195a.75.75 0 00.577-.706c.02-.615.448-1.225 1.134-1.623A8.25 8.25 0 0012 .75z"/>
+                            <path fillRule="evenodd"
+                                  d="M9.013 19.9a.75.75 0 01.877-.597 11.319 11.319 0 004.22 0 .75.75 0 11.28 1.473 12.819 12.819 0 01-4.78 0 .75.75 0 01-.597-.876zM9.754 22.344a.75.75 0 01.824-.668 13.682 13.682 0 002.844 0 .75.75 0 11.156 1.492 15.156 15.156 0 01-3.156 0 .75.75 0 01-.668-.824z"
+                                  clipRule="evenodd"/>
                         </svg>
                     </button>
                 </div>
