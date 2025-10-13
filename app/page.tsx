@@ -108,7 +108,6 @@ export default function Home() {
             // Check if the input is wrong and count mistakes
             if (num !== 0 && num !== solution[row][col]) {
                 const newMistakes = mistakes + 1;
-                setMistakes(newMistakes);
 
                 // Check if mistakes reached 4
                 if (newMistakes >= 4) {
@@ -118,6 +117,8 @@ export default function Home() {
                     }, 3000);
                     return;
                 }
+
+                setMistakes(newMistakes);
             }
 
             setUserGrid(newGrid);
