@@ -17,6 +17,7 @@ export default function Home() {
     const [elapsedTime, setElapsedTime] = useState(0);
     const [mistakes, setMistakes] = useState(0);
     const [isFailed, setIsFailed] = useState(false);
+    const [showDifficultyDropdown, setShowDifficultyDropdown] = useState(false);
 
     // Start New Game
     const startNewGame = (diff: Difficulty) => {
@@ -202,6 +203,21 @@ export default function Home() {
         return () => window.removeEventListener('keydown', handleKeyPress);
     }, [selectedCell, userGrid, initialGrid]);
 
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (showDifficultyDropdown) {
+                const target = e.target as HTMLElement;
+                if (!target.closest('.difficulty-dropdown')) {
+                    setShowDifficultyDropdown(false);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showDifficultyDropdown]);
+
     // Cell Style
     const getCellClassName = (row: number, col: number) => {
         const isInitial = initialGrid[row]?.[col] !== 0;
@@ -270,9 +286,9 @@ export default function Home() {
             <div className="bg-white rounded-lg shadow-2xl p-2 sm:p-3 lg:p-4 max-w-fit">
 
                 {/* Top - Menu */}
-                <div className="flex items-start justify-between mb-2 sm:mb-3">
+                <div className="flex items-start justify-between mb-2 sm:mb-3 gap-1">
                     {/* New Game + Timer */}
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col items-start gap-1 min-w-0">
                         <button
                             onClick={() => startNewGame(difficulty)}
                             className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
@@ -280,40 +296,56 @@ export default function Home() {
                         >
                             new
                         </button>
-                        <div className="text-xs sm:text-sm text-gray-700 font-semibold">
-                            {formatTime(elapsedTime)}
+                        <div className="text-xs sm:text-sm text-gray-700 font-semibold whitespace-nowrap">
+                            Timer {formatTime(elapsedTime)}
                         </div>
                     </div>
 
-                    {/* Difficulty */}
-                    <div className="flex gap-1 sm:gap-2 justify-center flex-1">
-                        {(['easy', 'medium', 'hard', 'expert'] as Difficulty[]).map((diff) => (
+                    {/* Difficulty Dropdown */}
+                    <div className="relative flex-1 flex justify-center">
+                        <div className="difficulty-dropdown">
                             <button
-                                key={diff}
-                                onClick={() => startNewGame(diff)}
-                                className={`px-2 sm:px-4 py-1 sm:py-1.5 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
-                                    difficulty === diff
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                }`}
+                                onClick={() => setShowDifficultyDropdown(!showDifficultyDropdown)}
+                                className="px-2 sm:px-4 py-1 sm:py-1.5 bg-blue-600 text-white rounded-lg font-semibold transition-colors text-xs sm:text-sm hover:bg-blue-700"
                             >
-                                {diff}
+                                {difficulty}
                             </button>
-                        ))}
+                            {showDifficultyDropdown && (
+                                <div
+                                    className="absolute top-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg z-10">
+                                    {(['easy', 'medium', 'hard', 'expert'] as Difficulty[]).map((diff) => (
+                                        <button
+                                            key={diff}
+                                            onClick={() => {
+                                                startNewGame(diff);
+                                                setShowDifficultyDropdown(false);
+                                            }}
+                                            className={`block w-full px-4 py-2 text-left text-xs sm:text-sm font-semibold transition-colors ${
+                                                difficulty === diff
+                                                    ? 'bg-blue-100 text-blue-600'
+                                                    : 'text-gray-700 hover:bg-gray-100'
+                                            }`}
+                                        >
+                                            {diff}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* Reset + Mistakes */}
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col items-end gap-1 min-w-0">
                         <button
                             onClick={resetGame}
                             className="px-2 sm:px-3 py-0.5 sm:py-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
                             title="reset"
                         >
-                            ↻
+                            reset
                         </button>
                         <div
-                            className={`text-xs sm:text-sm font-semibold ${mistakes >= 3 ? 'text-red-600' : 'text-gray-700'}`}>
-                            {mistakes}/3
+                            className={`text-xs sm:text-sm font-semibold whitespace-nowrap ${mistakes >= 3 ? 'text-red-600' : 'text-gray-700'}`}>
+                            Mistake {mistakes}/3
                         </div>
                     </div>
                 </div>
