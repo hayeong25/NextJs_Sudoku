@@ -251,18 +251,18 @@ export default function Home() {
             {/* Top Ad (Mobile only) */}
             <div className="flex lg:hidden items-center justify-center flex-shrink-0 mb-4">
                 <KakaoAdFit
-                    unit="DAN-LZ4IURtj6f5Q04yH"
-                    width="250"
-                    height="250"
+                    unit="DAN-sO1iSRgjCf8aopAP"
+                    width="320"
+                    height="50"
                 />
             </div>
 
             {/* Left Ad (Desktop only) */}
             <div className="hidden lg:flex items-center justify-center flex-shrink-0 mr-4">
                 <KakaoAdFit
-                    unit="DAN-LZ4IURtj6f5Q04yH"
-                    width="250"
-                    height="250"
+                    unit="DAN-9F8a61CzxL0uUlch"
+                    width="160"
+                    height="600"
                 />
             </div>
 
@@ -420,18 +420,18 @@ export default function Home() {
             {/* Right Ad (Desktop only) */}
             <div className="hidden lg:flex items-center justify-center flex-shrink-0 ml-4">
                 <KakaoAdFit
-                    unit="DAN-LZ4IURtj6f5Q04yH"
-                    width="250"
-                    height="250"
+                    unit="DAN-9F8a61CzxL0uUlch"
+                    width="160"
+                    height="600"
                 />
             </div>
 
             {/* Bottom Ad (Mobile only) */}
             <div className="flex lg:hidden items-center justify-center flex-shrink-0 mt-4">
                 <KakaoAdFit
-                    unit="DAN-LZ4IURtj6f5Q04yH"
-                    width="250"
-                    height="250"
+                    unit="DAN-sO1iSRgjCf8aopAP"
+                    width="320"
+                    height="50"
                 />
             </div>
 

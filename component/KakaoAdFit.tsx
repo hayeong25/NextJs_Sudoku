@@ -15,8 +15,8 @@ export default function KakaoAdFit({
         return (
             <div
                 style={{
-                    width: '250px',
-                    height: '250px',
+                    width: `${width}px`,
+                    height: `${height}px`,
                     border: '2px dashed #ccc',
                     display: 'flex',
                     alignItems: 'center',
