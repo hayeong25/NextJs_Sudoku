@@ -246,10 +246,15 @@ export default function Home() {
             } else {
                 className += 'bg-gray-100 ';
             }
-        } else if (isWrong) {
-            className += 'bg-red-100 text-red-600 ';
         } else if (isSelected) {
             className += 'bg-blue-200 ';
+            if (isWrong) {
+                className += 'text-red-600 ';
+            } else {
+                className += 'text-blue-600 ';
+            }
+        } else if (isWrong) {
+            className += 'bg-red-100 text-red-600 ';
         } else if (isSameNumber) {
             className += 'bg-blue-100 text-blue-600 ';
         } else {
@@ -382,8 +387,7 @@ export default function Home() {
                 </div>
 
                 {/* Bottom - Number Pad */}
-                <div className="grid grid-cols-6 gap-y-0.5 sm:gap-y-1 gap-x-0.5 mb-2 mx-auto"
-                     style={{maxWidth: '24rem'}}>
+                <div className="grid grid-cols-6 gap-y-0.5 sm:gap-y-1 gap-x-0.5 mb-2 justify-items-center">
                     {[1, 2, 3, 4, 5].map((num) => (
                         <button
                             key={num}
