@@ -14,6 +14,9 @@ export default function Home() {
     const [isComplete, setIsComplete] = useState(false);
     const [memoMode, setMemoMode] = useState(false);
     const [memos, setMemos] = useState<{ [key: string]: number[] }>({});
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [mistakes, setMistakes] = useState(0);
+    const [isFailed, setIsFailed] = useState(false);
 
     // Start New Game
     const startNewGame = (diff: Difficulty) => {
@@ -27,6 +30,9 @@ export default function Home() {
         setIsComplete(false);
         setMemoMode(false);
         setMemos({});
+        setElapsedTime(0);
+        setMistakes(0);
+        setIsFailed(false);
     };
 
     // Reset Current Game
@@ -35,12 +41,33 @@ export default function Home() {
         setSelectedCell(null);
         setIsComplete(false);
         setMemos({});
+        setElapsedTime(0);
+        setMistakes(0);
+        setIsFailed(false);
     };
 
     // Init Load
     useEffect(() => {
         startNewGame('medium');
     }, []);
+
+    // Timer
+    useEffect(() => {
+        if (isComplete) return;
+
+        const timer = setInterval(() => {
+            setElapsedTime(prev => prev + 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [isComplete]);
+
+    // Format Timer
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
 
     // Click Cell
     const handleCellClick = (row: number, col: number) => {
@@ -77,6 +104,22 @@ export default function Home() {
         } else {
             const newGrid = userGrid.map(r => [...r]);
             newGrid[row][col] = num;
+
+            // Check if the input is wrong and count mistakes
+            if (num !== 0 && num !== solution[row][col]) {
+                const newMistakes = mistakes + 1;
+                setMistakes(newMistakes);
+
+                // Check if mistakes reached 4
+                if (newMistakes >= 4) {
+                    setIsFailed(true);
+                    setTimeout(() => {
+                        startNewGame(difficulty);
+                    }, 3000);
+                    return;
+                }
+            }
+
             setUserGrid(newGrid);
 
             // Clear memo when actual value is set
@@ -226,15 +269,20 @@ export default function Home() {
             <div className="bg-white rounded-lg shadow-2xl p-2 sm:p-3 lg:p-4 max-w-fit">
 
                 {/* Top - Menu */}
-                <div className="flex items-center justify-between mb-2 sm:mb-3">
-                    {/* New Game */}
-                    <button
-                        onClick={() => startNewGame(difficulty)}
-                        className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
-                        title="new game"
-                    >
-                        new
-                    </button>
+                <div className="flex items-start justify-between mb-2 sm:mb-3">
+                    {/* New Game + Timer */}
+                    <div className="flex flex-col items-center gap-1">
+                        <button
+                            onClick={() => startNewGame(difficulty)}
+                            className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
+                            title="new game"
+                        >
+                            new
+                        </button>
+                        <div className="text-xs sm:text-sm text-gray-700 font-semibold">
+                            {formatTime(elapsedTime)}
+                        </div>
+                    </div>
 
                     {/* Difficulty */}
                     <div className="flex gap-1 sm:gap-2 justify-center flex-1">
@@ -253,14 +301,20 @@ export default function Home() {
                         ))}
                     </div>
 
-                    {/* Reset */}
-                    <button
-                        onClick={resetGame}
-                        className="px-2 sm:px-3 py-0.5 sm:py-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
-                        title="reset"
-                    >
-                        ↻
-                    </button>
+                    {/* Reset + Mistakes */}
+                    <div className="flex flex-col items-center gap-1">
+                        <button
+                            onClick={resetGame}
+                            className="px-2 sm:px-3 py-0.5 sm:py-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors whitespace-nowrap text-xs sm:text-sm"
+                            title="reset"
+                        >
+                            ↻
+                        </button>
+                        <div
+                            className={`text-xs sm:text-sm font-semibold ${mistakes >= 3 ? 'text-red-600' : 'text-gray-700'}`}>
+                            {mistakes}/3
+                        </div>
+                    </div>
                 </div>
 
                 {/* Middle - Sudoku Grid */}
@@ -387,6 +441,17 @@ export default function Home() {
                     <div className="bg-white rounded-2xl shadow-2xl p-12 text-center animate-bounce">
                         <div className="text-4xl font-bold text-green-600 mb-2">
                             Congratulations! 🎉
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Fail Modal */}
+            {isFailed && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white rounded-2xl shadow-2xl p-12 text-center animate-bounce">
+                        <div className="text-4xl font-bold text-red-600 mb-2">
+                            Failed! 😢
                         </div>
                     </div>
                 </div>
