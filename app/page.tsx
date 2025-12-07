@@ -273,8 +273,9 @@ export default function Home() {
 
             {/* Top Ad (Mobile only) */}
             <div className="flex lg:hidden items-center justify-center flex-shrink-0 mb-4">
-                <KakaoAdFit
-                    unit="DAN-sO1iSRgjCf8aopAP"
+                <AdWithFallback
+                    kakaoUnit="DAN-sO1iSRgjCf8aopAP"
+                    googleAdSlot="7702059292"
                     width="320"
                     height="50"
                 />
@@ -458,8 +459,9 @@ export default function Home() {
 
             {/* Right Ad (Desktop only) */}
             <div className="hidden lg:flex items-center justify-center flex-shrink-0 ml-4">
-                <KakaoAdFit
-                    unit="DAN-3bbuTPSoWHwgdoGU"
+                <AdWithFallback
+                    kakaoUnit="DAN-3bbuTPSoWHwgdoGU"
+                    googleAdSlot="2849365473"
                     width="160"
                     height="600"
                 />
@@ -467,8 +469,9 @@ export default function Home() {
 
             {/* Bottom Ad (Mobile only) */}
             <div className="flex lg:hidden items-center justify-center flex-shrink-0 mt-4">
-                <KakaoAdFit
-                    unit="DAN-8Ww7GFa8g9TuWQht"
+                <AdWithFallback
+                    kakaoUnit="DAN-8Ww7GFa8g9TuWQht"
+                    googleAdSlot="9109960994"
                     width="320"
                     height="100"
                 />
