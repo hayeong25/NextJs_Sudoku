@@ -3,6 +3,7 @@
 import {useState, useEffect} from 'react';
 import {generatePuzzle, checkPuzzle, isPuzzleComplete, type SudokuGrid, type Difficulty} from '@/lib/sudoku';
 import KakaoAdFit from '@/component/KakaoAdFit';
+import AdWithFallback from '@/component/AdWithFallback';
 
 export default function Home() {
     const [difficulty, setDifficulty] = useState<Difficulty>('medium');
@@ -281,8 +282,9 @@ export default function Home() {
 
             {/* Left Ad (Desktop only) */}
             <div className="hidden lg:flex items-center justify-center flex-shrink-0 mr-4">
-                <KakaoAdFit
-                    unit="DAN-9F8a61CzxL0uUlch"
+                <AdWithFallback
+                    kakaoUnit="DAN-9F8a61CzxL0uUlch"
+                    googleAdSlot="4091506093"
                     width="160"
                     height="600"
                 />
