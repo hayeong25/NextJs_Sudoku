@@ -18,11 +18,10 @@ export default function RootLayout({children,}: Readonly<{
         <html lang="ko">
         <body className="antialiased">
         {/* Google AdSense Script */}
-        <Script
+        <script
+            async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8155259965118969"
             crossOrigin="anonymous"
-            strategy="afterInteractive"
-            async
         />
         {/* Kakao AdFit Script */}
         <Script
