@@ -284,7 +284,7 @@ export default function Home() {
             <div className="hidden lg:flex items-center justify-center flex-shrink-0 mr-4">
                 <AdWithFallback
                     kakaoUnit="DAN-9F8a61CzxL0uUlch"
-                    googleAdSlot="4091506093"
+                    googleAdSlot="1519794326"
                     width="160"
                     height="600"
                 />

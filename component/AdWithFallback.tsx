@@ -148,14 +148,12 @@ export default function AdWithFallback({
                 <ins
                     className="adsbygoogle"
                     style={{
-                        display: 'block',
+                            display: 'inline-block',
                         width: `${width}px`,
                         height: `${height}px`
                     }}
                     data-ad-client="ca-pub-8155259965118969"
                     data-ad-slot={googleAdSlot}
-                    data-ad-format="auto"
-                    data-full-width-responsive="false"
                 />
             )}
         </div>
